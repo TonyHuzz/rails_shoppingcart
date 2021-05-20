@@ -25,7 +25,21 @@ class ProductsController < ApplicationController
 
     #設定新的@products 代表說陣列中第幾個位置要呈現多少筆資料 > ary[1, 2, 3]  ary(0,2) = 1, 2 代表說從第0個開始顯示2個資料
     @products = @products.offset( (@page - 1) * LIMIT_PRODUCTS_NUMBER).limit(LIMIT_PRODUCTS_NUMBER)
-
   end
+
+
+  def new
+    @note = flash[:note]
+  end
+
+  def create
+    product = Product.create(product_permit)
+    flash[:note] = product.id
+    redirect_to action: :new
+  end
+
+   def product_permit
+      params.permit([:name, :description, :image_url, :price])  #return params.permit([:name, :description, :image_url, :price]) return可寫可不寫
+   end
 
 end
