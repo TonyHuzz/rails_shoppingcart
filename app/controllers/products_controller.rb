@@ -34,6 +34,8 @@ class ProductsController < ApplicationController
 
 
   def new
+    @product = Product.new  #產生一個空的資料欄  跟 Product.create不同
+
     @note = flash[:note]
   end
 
@@ -43,8 +45,20 @@ class ProductsController < ApplicationController
     redirect_to action: :new
   end
 
-   def product_permit
-      params.permit([:name, :description, :image_url, :price])  #return params.permit([:name, :description, :image_url, :price]) return可寫可不寫
-   end
+  def edit
+    @product = Product.find(params[:id])
+  end
+
+  def update
+    product = Product.find(params[:id])
+    product.update(product_permit)
+
+    redirect_to action: :edit
+  end
+
+  #允許新增產品時直接抓 new.html 裡面的值當作資料
+  def product_permit
+    params.require(:product).permit([:name, :description, :image_url, :price])  #return params.permit([:name, :description, :image_url, :price]) return可寫可不寫
+  end
 
 end
