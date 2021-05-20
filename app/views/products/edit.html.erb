@@ -1,0 +1,16 @@
+<h3>編輯產品</h3>
+<%= form_for @product, method: :patch  do |f| %>
+  <%= f.label :name, "名稱" %>
+  <%= f.text_field :name %><br/>
+
+  <%= f.label :description, "敘述" %>
+  <%= f.text_field :description %><br/>
+
+  <%= f.label :image_url, "圖片連結" %>
+  <%= f.text_field :image_url %><br/>
+
+  <%= f.label :price, "價格" %>
+  <%= f.number_field :price %><br />
+
+  <%= f.submit "更新" %>
+<% end %>
