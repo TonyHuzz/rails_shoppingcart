@@ -5,18 +5,21 @@ class AdminController < ApplicationController
   end
 
   def log_out
-    session[:note] = nil 
+    session[:note] = nil
   end
 
   def create_session
-    user = User.find_by(email: params[:email], password: params[:password] )
+    user = User.find_by(email: params[:email], password: encrypted(params[:password]) )
 
     if user
       session[:note] = user.name
     end
 
     redirect_to action: :log_in
+  end
 
+  def encrypted(password)
+    return "aaaaa" + password
   end
 
 
