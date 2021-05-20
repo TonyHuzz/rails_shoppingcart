@@ -56,6 +56,12 @@ class ProductsController < ApplicationController
     redirect_to action: :edit
   end
 
+  def destroy
+    product = Product.find(params[:id])
+    product.destroy
+    redirect_to action: :index
+  end
+
   #允許新增產品時直接抓 new.html 裡面的值當作資料
   def product_permit
     params.require(:product).permit([:name, :description, :image_url, :price])  #return params.permit([:name, :description, :image_url, :price]) return可寫可不寫
