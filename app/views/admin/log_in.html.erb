@@ -10,4 +10,4 @@
   <%= submit_tag "新增" %>
 <% end %>
 
-<%= @note %>
+<%= current_user.try(:name) %>
