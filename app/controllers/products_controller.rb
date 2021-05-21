@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :redirect_to_root_if_not_log_in,except: [:index, :show]
+
 
   #LIMIT_PRODUCTS_NUMBER = 每頁要呈現的商品數量
   LIMIT_PRODUCTS_NUMBER = 20
@@ -71,6 +73,14 @@ class ProductsController < ApplicationController
     product.destroy
     redirect_to action: :index
     return
+  end
+
+  def redirect_to_root_if_not_log_in
+    if !current_user
+      flash[:notice] = "您尚未登入"
+      redirect_to root_path
+      return
+    end
   end
 
   #允許新增產品時直接抓 new.html 裡面的值當作資料
