@@ -12,8 +12,12 @@ class AdminController < ApplicationController
 
     if user
       session[:current_user_id] = user.id
+      flash[:notice] = "登入成功"
+      redirect_to root_path
+      return
     end
 
+    flash[:notice] = "登入失敗"
     redirect_to action: :log_in
   end
 
