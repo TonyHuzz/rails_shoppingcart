@@ -7,7 +7,7 @@
   <%= f.text_field :description %><br />
 
   <%= f.label :image, "圖片" %>
-  <%= f.file_field :image %><br />
+  <%= f.file_field :image, accept: "image/gif, image/jpeg, image/png" %><br />
 
   <%= f.label :price, "價格" %>
   <%= f.number_field :price %><br />
