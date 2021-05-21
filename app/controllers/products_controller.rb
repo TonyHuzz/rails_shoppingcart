@@ -19,6 +19,8 @@ class ProductsController < ApplicationController
       @page = 1
     end
 
+    @categories = Category.all
+
     @products = Product.all
 
     #設定第一頁為1，最後一頁為商品總數/每頁要呈現的數量
