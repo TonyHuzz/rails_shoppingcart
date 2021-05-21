@@ -44,14 +44,18 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new  #產生一個空的資料欄  跟 Product.create不同
 
-    @note = flash[:note]
   end
 
   def create
-    product = Product.create(product_permit)
-    flash[:note] = product.id
+    image = params[:product][:image]
+    if image
+      image_url = save_file(image)
+    end
+
+    product = Product.create(product_permit.merge({image_url: image_url}))
+
+    flash[:notice] = "建立成功"
     redirect_to action: :new
-    return
   end
 
   def edit
@@ -64,8 +68,19 @@ class ProductsController < ApplicationController
 
   def update
     product = Product.find(params[:id])
-    product.update(product_permit)
 
+    image = params[:product][:image]
+    if image
+      image_url = save_file(image)
+      product.update(product_permit.merge({image_url: image_url}))
+    else
+      product.update(product_permit)
+    end
+
+
+
+
+    flash[:notice] = "更新成功"
     redirect_to action: :edit
     return
   end
@@ -87,7 +102,21 @@ class ProductsController < ApplicationController
 
   #允許新增產品時直接抓 new.html 裡面的值當作資料
   def product_permit
-    params.require(:product).permit([:name, :description, :image_url, :price])  #return params.permit([:name, :description, :image_url, :price]) return可寫可不寫
+    params.require(:product).permit([:name, :description, :price, :subcategory_id])  #return params.permit([:name, :description, :image_url, :price]) return可寫可不寫
+  end
+
+  def save_file(newFile)
+    dir_url = Rails.root.join('public', 'uploads/products')  #圖片路徑位置
+
+    FileUtils.mkdir_p(dir_url) unless File.directory?(dir_url)  #如果沒有該路徑，用mkdir_p 建立路徑， 如果路徑存在則不須建立
+
+    file_url = dir_url + newFile.original_filename  #file_url = 路徑/檔案名稱
+
+    File.open(file_url, 'w+b') do |file|    #開啟檔案或寫入檔案
+      file.write(newFile.read)
+    end
+
+    return "/uploads/products/" + newFile.original_filename
   end
 
 end
