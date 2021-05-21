@@ -1,10 +1,15 @@
 class AdminController < ApplicationController
+  before_action :redirect_to_root_if_log_in,except: [:log_out]
+  before_action :redirect_to_root_if_not_log_in,only: [:log_out]
+
 
   def log_in
   end
 
   def log_out
     session[:current_user_id] = nil
+    flash[:notice] = "登出成功"
+    redirect_to root_path
   end
 
   def create_session
@@ -19,6 +24,22 @@ class AdminController < ApplicationController
 
     flash[:notice] = "登入失敗"
     redirect_to action: :log_in
+  end
+
+  def redirect_to_root_if_log_in
+    if current_user
+      flash[:notice] = "已經登入了"
+      redirect_to root_path
+      return
+    end
+  end
+
+  def redirect_to_root_if_not_log_in
+    if !current_user
+      flash[:notice] = "您尚未登入"
+      redirect_to root_path
+      return
+    end
   end
 
   def encrypted(password)
