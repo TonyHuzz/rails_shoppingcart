@@ -6,5 +6,5 @@ class User < ApplicationRecord
       self.password = "aaaaa" + self.password
     end
   end
-  
+
 end
