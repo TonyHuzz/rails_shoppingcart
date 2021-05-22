@@ -20,7 +20,7 @@ class SubcategoriesController < ProductsController
       redirect_to products_category_path(@category)
     end
   end
-  
+
   def get_products
     @products = @subcategory.products
   end
