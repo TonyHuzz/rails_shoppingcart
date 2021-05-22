@@ -1,4 +1,4 @@
-class SubcategoriesController < ApplicationController
+class SubcategoriesController < ProductsController
   before_action :get_category, only: [:products]
   before_action :get_subcategory, only: [:products]
 
@@ -6,11 +6,6 @@ class SubcategoriesController < ApplicationController
   LIMIT_PRODUCTS_NUMBER = 20
 
   def products
-    @ad = {
-      title: "大型廣告",
-      description: "這是廣告",
-      action_title: "閱讀更多"
-    }
 
     #如果沒有點選第幾頁，網址為127.0.0.1:3000的話，他會顯示成最後一頁而不是第一頁，所以要設定判斷說是不是在第一頁
     if params[:page]

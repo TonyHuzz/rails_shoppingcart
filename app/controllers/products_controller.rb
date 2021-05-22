@@ -1,23 +1,14 @@
 class ProductsController < ApplicationController
-  before_action :redirect_to_root_if_not_log_in,except: [:index, :show]
+  before_action :redirect_to_root_if_not_log_in,except: [:index, :show, :products]
+  before_action :create_ad, only: [:index, :products]
+  before_action :get_current_page, only: [:index, :products]
+  before_action :get_all_categories, only: [:index, :products]
 
 
   #LIMIT_PRODUCTS_NUMBER = 每頁要呈現的商品數量
   LIMIT_PRODUCTS_NUMBER = 20
 
   def index
-    @ad = {
-      title: "大型廣告",
-      description: "這是廣告",
-      action_title: "閱讀更多"
-    }
-
-    #如果沒有點選第幾頁，網址為127.0.0.1:3000的話，他會顯示成最後一頁而不是第一頁，所以要設定判斷說是不是在第一頁
-    if params[:page]
-      @page = params[:page].to_i
-    else
-      @page = 1
-    end
 
     @categories = Category.all
 
@@ -77,9 +68,6 @@ class ProductsController < ApplicationController
       product.update(product_permit)
     end
 
-
-
-
     flash[:notice] = "更新成功"
     redirect_to action: :edit
     return
@@ -117,6 +105,27 @@ class ProductsController < ApplicationController
     end
 
     return "/uploads/products/" + newFile.original_filename
+  end
+
+  def create_ad
+    @ad = {
+      title: "大型廣告",
+      description: "這是廣告",
+      action_title: "閱讀更多"
+    }
+  end
+
+  def get_current_page
+    #如果沒有點選第幾頁，網址為127.0.0.1:3000的話，他會顯示成最後一頁而不是第一頁，所以要設定判斷說是不是在第一頁
+    if params[:page]
+      @page = params[:page].to_i
+    else
+      @page = 1
+    end
+  end
+
+  def get_all_categories
+    @categories = Category.all
   end
 
 end
