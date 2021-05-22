@@ -1,13 +1,14 @@
 class SubcategoriesController < ProductsController
   before_action :get_category, only: [:products]
   before_action :get_subcategory, only: [:products]
-  before_action :get_products, only: [:index, :products]
-  before_action :create_pagination, only: [:index, :products]
-
+  before_action :get_products, only: [:products]
+  before_action :create_pagination, only: [:products]
 
 
   def products
   end
+
+  private
 
   def get_category
     @category = Category.find_by_id(params[:category_id])
@@ -19,8 +20,7 @@ class SubcategoriesController < ProductsController
       redirect_to products_category_path(@category)
     end
   end
-
-
+  
   def get_products
     @products = @subcategory.products
   end
