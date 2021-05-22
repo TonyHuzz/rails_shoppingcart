@@ -128,8 +128,11 @@ class ProductsController < ApplicationController
 
 
     @last_page = ( count / LIMITED_PRODUCTS_NUMBER)
-    if ( count % LIMITED_PRODUCTS_NUMBER )
-      @last_page = @last_page += 1
+    if ( count % LIMITED_PRODUCTS_NUMBER > 0 )
+      @last_page += 1
+    else if( count = 0)
+      @last_page = 1
+         end
     end
 
     #設定新的@products 代表說陣列中第幾個位置要呈現多少筆資料 > ary[1, 2, 3]  ary(0,2) = 1, 2 代表說從第0個開始顯示2個資料
