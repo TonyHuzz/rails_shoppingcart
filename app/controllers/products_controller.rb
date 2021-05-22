@@ -1,30 +1,13 @@
 class ProductsController < ApplicationController
   before_action :redirect_to_root_if_not_log_in,except: [:index, :show, :products]
-  before_action :create_ad, only: [:index, :products]
-  before_action :get_current_page, only: [:index, :products]
-  before_action :get_all_categories, only: [:index, :products]
+  before_action :prepare_index, only: [:index, :products]
+  before_action :get_products, only: [:index, :products]
+  before_action :create_pagination, only: [:index, :products]
 
-
-  #LIMIT_PRODUCTS_NUMBER = 每頁要呈現的商品數量
-  LIMIT_PRODUCTS_NUMBER = 20
+  #LIMITED_PRODUCTS_NUMBER = 每頁要呈現的商品數量
+  LIMITED_PRODUCTS_NUMBER = 20
 
   def index
-
-    @categories = Category.all
-
-    @products = Product.all
-
-    #設定第一頁為1，最後一頁為商品總數/每頁要呈現的數量
-    @first_page = 1
-    count = @products.count
-
-    @last_page = ( count / LIMIT_PRODUCTS_NUMBER)
-    if ( count % LIMIT_PRODUCTS_NUMBER )
-      @last_page = @last_page += 1
-    end
-
-    #設定新的@products 代表說陣列中第幾個位置要呈現多少筆資料 > ary[1, 2, 3]  ary(0,2) = 1, 2 代表說從第0個開始顯示2個資料
-    @products = @products.offset( (@page - 1) * LIMIT_PRODUCTS_NUMBER).limit(LIMIT_PRODUCTS_NUMBER)
   end
 
   def show
@@ -107,6 +90,12 @@ class ProductsController < ApplicationController
     return "/uploads/products/" + newFile.original_filename
   end
 
+  def prepare_index
+    create_ad
+    get_current_page
+    get_all_categories
+  end
+
   def create_ad
     @ad = {
       title: "大型廣告",
@@ -126,6 +115,25 @@ class ProductsController < ApplicationController
 
   def get_all_categories
     @categories = Category.all
+  end
+
+  def get_products
+    @products = Product.all
+  end
+
+  def create_pagination
+    #設定第一頁為1，最後一頁為商品總數/每頁要呈現的數量
+    @first_page = 1
+    count = @products.count
+
+
+    @last_page = ( count / LIMITED_PRODUCTS_NUMBER)
+    if ( count % LIMITED_PRODUCTS_NUMBER )
+      @last_page = @last_page += 1
+    end
+
+    #設定新的@products 代表說陣列中第幾個位置要呈現多少筆資料 > ary[1, 2, 3]  ary(0,2) = 1, 2 代表說從第0個開始顯示2個資料
+    @products = @products.offset( (@page - 1) * LIMITED_PRODUCTS_NUMBER).limit(LIMITED_PRODUCTS_NUMBER)
   end
 
 end
