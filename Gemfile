@@ -41,6 +41,10 @@ gem 'jquery-rails'
 
 gem 'rails_admin', '~> 2.0'
 
+gem 'mysql2'
+
+#gem install mysql2 --platform=ruby -- '--with-mysql-lib="E:\AppServ\MySQL\mysql-connector-c++-8.0.24-winx64\lib64" --with-mysql-include="E:\AppServ\MySQL\mysql-connector-c++-8.0.24-winx64\include" --with-mysql-dir="E:\AppServ\MySQL\mysql-connector-c++-8.0.24-winx64"'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
