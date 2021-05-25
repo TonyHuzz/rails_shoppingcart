@@ -1,6 +1,6 @@
 <div class="thumbnail">
   <%= link_to product_path(product) do %>
-    <%= image_tag (product.image_url || "https://via.placeholder.com/360x200") %>
+    <%= image_tag (product.image_url.url || "https://via.placeholder.com/360x200") %>
   <% end %>
   <div class="caption">
     <%= link_to product_path(product) do %>
