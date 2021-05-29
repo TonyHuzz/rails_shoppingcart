@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   resources :products
 
+  resources :cart_items
+
   resources :categories, param: :category_id do
     member do
       get :products
