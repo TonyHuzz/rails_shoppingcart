@@ -23,11 +23,11 @@ ActiveRecord::Schema.define(version: 2021_05_29_112129) do
   end
 
   create_table "carts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "users_id"
+    t.bigint "user_id"
     t.integer "cart_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_carts_on_users_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
