@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :carts
   before_save :salted
 
   def salted
