@@ -20,9 +20,9 @@
           <ul class="dropdown-menu">
             <% if current_user %>
               <li><%= link_to "新增商品", new_product_path() %></li>
-              <li><%= link_to "登出", admin_log_out_path() %></li>
+              <li><%= link_to "登出", destroy_user_session_path %></li>
             <% else %>
-              <li><%= link_to "登入", admin_log_in_path() %></li>
+              <li><%= link_to "登入", new_user_session_path %></li>
             <% end %>
           </ul>
         </li>
