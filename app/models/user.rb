@@ -9,6 +9,22 @@ class User < ApplicationRecord
 
   after_create :create_carts
 
+  def buy_now_cart
+    carts.buy_now.first
+  end
+
+  def buy_now_cart_items
+    buy_now_cart.cart_items
+  end
+
+  def buy_next_time_cart
+    carts.buy_next_time.first
+  end
+
+  def buy_next_time_cart_items
+    buy_next_time_cart.cart_items
+  end
+
   private
 
   def create_carts
