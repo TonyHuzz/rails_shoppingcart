@@ -27,17 +27,25 @@
       <br/>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-primary btn-block">
-            加入購物車
-          </button>
+          <%= form_tag cart_items_path, method: :post do %>
+            <%= hidden_field_tag(:product_id, @product.id) %>
+            <%= hidden_field_tag(:cart_type, Cart.cart_types[:buy_now]) %>
+            <button class="btn btn-primary btn-block">
+              加入購物車
+            </button>
+          <% end %>
         </div>
       </div>
       <br/>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-warning btn-block">
-            下次購買
-          </button>
+          <%= form_tag cart_items_path, method: :post do %>
+            <%= hidden_field_tag(:product_id, @product.id) %>
+            <%= hidden_field_tag(:cart_type, Cart.cart_types[:buy_next_time]) %>
+            <button class="btn btn-warning btn-block">
+              下次購買
+            </button>
+          <% end %>
         </div>
       </div>
     </div>
