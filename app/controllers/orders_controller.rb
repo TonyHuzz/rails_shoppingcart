@@ -14,6 +14,39 @@ class OrdersController < ApplicationController
 
   def create
     # 建立一個訂單，狀態是還沒付款
+
+    @order = Order.not_paid.create(
+      user: current_user,
+      # user_name: current_user.name,
+      # user_address: current_user.address,
+      # user_phone: current_user.phone
+    )
+
+    current_user.buy_now_cart_items.each do |cart_item|
+
+      begin
+        OrderItem.create(
+          order: @order,
+          product: cart_item.product,
+          quantity: cart_item.quantity,
+          price: cart_item.product_price
+        )
+      rescue
+        @order.order_items.destroy_all
+        @order.destroy
+
+        flash[:notice] = "訂單建立失敗"
+        redirect_to root_path
+        return
+      end
+
+    end
+
+    current_user.buy_now_cart_items.destroy_all
+
+    flash[:notice] = "建立訂單成功"
+    redirect_to root_path
+    return
   end
 
   def update
