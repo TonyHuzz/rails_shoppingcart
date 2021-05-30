@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   mount RailsAdmin::Engine => '/pbadmin', as: 'rails_admin'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
@@ -19,10 +20,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  get "admin/log_in", to:  "admin#log_in"
-  post "admin/create_session", to: "admin#create_session"
-
-  get "admin/log_out", to:  "admin#log_out"
-
 end
