@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   resources :orders
 
+  resources :payments
+
   resources :categories, param: :category_id do
     member do
       get :products
