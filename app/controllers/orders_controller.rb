@@ -6,14 +6,24 @@ class OrdersController < ApplicationController
 
   def index
     # 顯示一個使用者(User)底下的所有訂單
+
+    @orders = current_user.orders
   end
 
   def show
     # 顯示一個訂單
+
+    @order_items = @order.order_items
   end
 
   def create
     # 建立一個訂單，狀態是還沒付款
+
+    if current_user.buy_now_cart_items.count == 0
+      flash[:notice] = "沒有商品"
+      redirect_to cart_items_path
+      return
+    end
 
     @order = Order.not_paid.create(
       user: current_user,
@@ -45,12 +55,23 @@ class OrdersController < ApplicationController
     current_user.buy_now_cart_items.destroy_all
 
     flash[:notice] = "建立訂單成功"
-    redirect_to payments_path
+    redirect_to payments_path(order_id: @order.id)
     return
   end
 
   def update
     # 更新一個訂單，狀態是已付款
+
+    if params[:payment_method] == "credit_card"
+      @order.paid!
+      flash[:notice] = "訂單付款成功"
+      redirect_to root_path
+      return
+    else
+      flash[:notice] = "訂單待付款"
+      redirect_to root_path
+      return
+    end
   end
 
   def destroy
