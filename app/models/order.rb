@@ -4,4 +4,14 @@ class Order < ApplicationRecord
 
   enum status: [ :not_paid, :paid, :cancelled ]
 
+
+  def amount
+    @amount = 0
+
+    order_items.each do |item|
+      @amount += item.quantity * (item.price)
+    end
+
+    return @amount
+  end
 end
