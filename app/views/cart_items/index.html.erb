@@ -18,9 +18,9 @@
 </div>
 <hr/>
 <p>總價:   <%= @amount || 0 %></p>
-<button class="btn btn-warning">
-  確定購買
-</button>
+<%= form_tag orders_path, method: :post  do %>
+  <%= submit_tag "確認購買",  class: "btn btn-success" %>
+<% end %>
 
 <hr/>
 <div>
