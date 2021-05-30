@@ -45,7 +45,7 @@ class OrdersController < ApplicationController
     current_user.buy_now_cart_items.destroy_all
 
     flash[:notice] = "建立訂單成功"
-    redirect_to root_path
+    redirect_to payments_path
     return
   end
 
