@@ -7,6 +7,8 @@ class CartItemsController < ApplicationController
   def index
     @buy_now_items = current_user.buy_now_cart_items
     @buy_next_time_items = current_user.buy_next_time_cart_items
+
+    @amount = 0
   end
 
   def create
