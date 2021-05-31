@@ -8,6 +8,8 @@
     <% end %>
     <p><%= product.description %></p>
     <p>類別：<%= product.subcategory.try(:name_with_category) %> </p>
+    <p>價錢：<%= product.price %> </p>
+
     <% if current_user && current_user.is_admin? %>
     <div>
       <%= link_to 'Edit', edit_product_path(product), class: "btn btn-primary" %>
