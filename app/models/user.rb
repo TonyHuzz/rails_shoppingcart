@@ -4,7 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :phone, presence: true
+  validates :name, :address, presence: true
+  validates :phone, format: { with: /\A\d{10}\z/, message: "only allows Taiwanese phone number(10 digits)" }
+  validates :is_admin, inclusion: [true, false]
 
   has_many :carts
   has_many :orders
