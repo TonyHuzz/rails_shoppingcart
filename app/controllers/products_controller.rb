@@ -66,8 +66,8 @@ class ProductsController < ApplicationController
   private
 
   def redirect_to_root_if_not_log_in
-    if !current_user
-      flash[:notice] = "您尚未登入"
+    if !current_user || !current_user.is_admin?
+      flash[:notice] = "您沒有權限"
       redirect_to root_path
       return
     end
