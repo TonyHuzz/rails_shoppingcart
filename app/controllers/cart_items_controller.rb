@@ -20,12 +20,16 @@ class CartItemsController < ApplicationController
       return
     end
 
-    CartItem.create(product: product, quantity: 1, cart: @cart )
+    cart_item = CartItem.create(product: product, quantity: params[:quantity], cart: @cart )
 
-    if @cart.buy_now?
-      flash[:notice] = "加入購物車成功"
-    elsif @cart.buy_next_time?
-      flash[:notice] = "加入下次購買成功"
+    if cart_item.valid?
+        if @cart.buy_now?
+          flash[:notice] = "加入購物車成功"
+        elsif @cart.buy_next_time?
+          flash[:notice] = "加入下次購買成功"
+        end
+    else
+        flash[:notice] = cart_item.errors.messages
     end
 
     redirect_to product_path(product)
