@@ -6,6 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+user = User.create(
+  name: "admin",
+  email: "benabcd5779@gmail.com",
+  password: "123456",
+  phone: "0955123456",
+  address: "台中市豐原區",
+  is_admin: true,
+)
+
 categories = [
   {
     "name": "3C",
@@ -37,7 +46,7 @@ end
 
 
 subcategory = Subcategory.all[4]
-PRODUCTS_COUNT = 100
+PRODUCTS_COUNT = 40
 
 (1..PRODUCTS_COUNT).each do |index|
    product = {
