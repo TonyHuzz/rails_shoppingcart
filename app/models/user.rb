@@ -8,8 +8,8 @@ class User < ApplicationRecord
   validates :phone, format: { with: /\A\d{10}\z/, message: "only allows Taiwanese phone number(10 digits)" }
   validates :is_admin, inclusion: [true, false]
 
-  has_many :carts
-  has_many :orders
+  has_many :carts, dependent: :destroy
+  has_many :orders, dependent: :nullify
 
   after_create :create_carts
 
