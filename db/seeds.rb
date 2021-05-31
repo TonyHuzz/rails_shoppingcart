@@ -15,6 +15,11 @@ user = User.create(
   is_admin: true,
 )
 
+unless user.valid?
+  puts "user 產生失敗"
+  puts product.errors.messages
+end
+
 categories = [
   {
     "name": "3C",
@@ -41,22 +46,48 @@ categories = [
 
 categories.each do |c_data|
   category = Category.create(name: c_data[:name], description: c_data[:description])
+
+  unless category.valid?
+    puts "category 產生失敗"
+    puts product.errors.messages
+  end
+
   c_data[:subcategories].each do |s_data_name|
     subcategory = Subcategory.create(name: s_data_name, category: category)
+
+    unless subcategory.valid?
+      puts "subcategory 產生失敗"
+      puts product.errors.messages
+    end
   end
 end
 
 
-subcategory = Subcategory.all[4]
-PRODUCTS_COUNT = 5
+
+PRODUCTS_COUNT = 10
+
+
+subcategory_count = Subcategory.count
 
 (1..PRODUCTS_COUNT).each do |index|
+
+  plus = Random.rand(0..100) #價錢隨機產生
+  subcategory_index = Random.rand(0.. (subcategory_count - 1) ) #副類別隨機產生
+
+  subcategory = Subcategory.all[subcategory_index]
+
    product = {
      name: "柳橙汁",
      description: "好喝柳橙汁",
-     price: 1000,
+     price: 1000 + plus,
      subcategory: subcategory
    }
 
-   Product.create(product)
+  product = Product.create(product)
+
+  unless product.valid?
+    puts "product 產生失敗"
+    puts product.errors.messages
+  end
+
 end
