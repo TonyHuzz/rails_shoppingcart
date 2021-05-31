@@ -28,7 +28,12 @@ class ProductsController < ApplicationController
 
     product = Product.create(product_permit.merge({image_url: image_url}))
 
-    flash[:notice] = "建立成功"
+    if product.valid?
+      flash[:notice] = "建立成功"
+    else
+      flash[:notice] = "建立失敗"
+    end
+
     redirect_to action: :new
   end
 
