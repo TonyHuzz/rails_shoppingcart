@@ -4,6 +4,8 @@ class Cart < ApplicationRecord
   
   enum cart_type: [ :buy_now, :buy_next_time ]
 
+  validates :cart_type, inclusion: { in: %w(buy_now buy_next_time), message: "%{value} is not a valid cart_type" }
+
   def amount
     @amount = 0
 
