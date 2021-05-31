@@ -121,11 +121,11 @@ class ProductsController < ApplicationController
   end
 
   def get_all_categories
-    @categories = Category.all
+    @categories = Category.includes(:subcategories).all
   end
 
   def get_products
-    @products = Product.all
+    @products = Product.includes(:subcategory).includes(:category).all
   end
 
   def create_pagination
