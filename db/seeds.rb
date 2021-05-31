@@ -18,6 +18,7 @@ user = User.create(
 categories = [
   {
     "name": "3C",
+    "description": "something",
     "subcategories": [
        "電腦",
        "手機",
@@ -27,6 +28,7 @@ categories = [
   },
   {
     "name": "美食",
+    "description": "something",
     "subcategories": [
        "飲品",
        "零食",
@@ -38,7 +40,7 @@ categories = [
 
 
 categories.each do |c_data|
-  category = Category.create(name: c_data[:name])
+  category = Category.create(name: c_data[:name], description: c_data[:description])
   c_data[:subcategories].each do |s_data_name|
     subcategory = Subcategory.create(name: s_data_name, category: category)
   end
@@ -46,13 +48,13 @@ end
 
 
 subcategory = Subcategory.all[4]
-PRODUCTS_COUNT = 40
+PRODUCTS_COUNT = 5
 
 (1..PRODUCTS_COUNT).each do |index|
    product = {
      name: "柳橙汁",
      description: "好喝柳橙汁",
-     #image_url: "https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+     price: 1000,
      subcategory: subcategory
    }
 
