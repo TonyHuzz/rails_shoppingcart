@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   has_many :order_items
 
   belongs_to :subcategory
+  has_one :category, through: :subcategory
+
   mount_uploader :image_url, ImageUploader
 
   validates :name, :description, presence: true
