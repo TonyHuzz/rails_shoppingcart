@@ -27,15 +27,21 @@ class OrdersController < ApplicationController
 
     @order = Order.not_paid.create(
       user: current_user,
-      # user_name: current_user.name,
-      # user_address: current_user.address,
-      # user_phone: current_user.phone
+      user_name: current_user.name,
+      user_address: current_user.address,
+      user_phone: current_user.phone
     )
+
+    unless @order.valid?
+      flash[:notice] = @order.errors.messages
+      redirect_to cart_items_path
+      return
+    end
 
     current_user.buy_now_cart_items.each do |cart_item|
 
       begin
-        OrderItem.create(
+        order_item = OrderItem.create!(
           order: @order,
           product: cart_item.product,
           quantity: cart_item.quantity,
