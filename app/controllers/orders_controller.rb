@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :redirect_to_root_if_not_log_in
   before_action :get_order, only: [:show, :update, :destroy]
-  # before_action :verify_auth
+  before_action :verify_auth, only: [:admin]
 
 
   def index
@@ -84,6 +84,10 @@ class OrdersController < ApplicationController
     # 訂單不會被刪除，所以是更新一個訂單，狀態是已取消
   end
 
+  def admin
+    @orders = Order.all
+  end
+
   private
 
   def redirect_to_root_if_not_log_in
@@ -101,15 +105,20 @@ class OrdersController < ApplicationController
       redirect_to root_path
       return
     end
+
+    unless current_user == @order.user || current_user.is_admin
+      flash[:notice] = "沒有這個訂單"
+      redirect_to root_path
+      return
+    end
+
   end
 
-  # def verify_auth
-  #   if @order
-  #     unless  current_user.is_admin? || ( current_user == @order.user)
-  #       flash[:notice] = "你沒有權限"
-  #       redirect_to root_path
-  #       return
-  #     end
-  #   end
-  # end
+  def verify_auth
+      unless  current_user.is_admin?
+        flash[:notice] = "你沒有權限"
+        redirect_to root_path
+        return
+      end
+  end
 end
