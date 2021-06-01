@@ -10,8 +10,15 @@
           <%= "單品價格: #{item.product_price || 0}" %>
         </p>
         <p>
-          <%= "購買數量: #{item.quantity}" %>
+          <%= form_for item, method: :patch do |f|%>
+            <%= f.label :quantity, "購買數量" %>
+            <%= f.number_field :quantity, min: 1, max: 10 %><br />
+            <%= f.submit "更新", class: "btn btn-primary" %>
+          <% end %>
         </p>
+        <div>
+          <%= link_to "刪除", cart_item_path(item), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
+        </div>
       </li>
     </ul>
   <% end %>
@@ -35,8 +42,15 @@
           <%= "單品價格: #{item.product.price || 0}" %>
         </p>
         <p>
-          <%= "購買數量: #{item.quantity}" %>
+          <%= form_for item, method: :patch do |f|%>
+            <%= f.label :quantity, "購買數量" %>
+            <%= f.number_field :quantity, min: 1, max: 10 %><br />
+            <%= f.submit "更新", class: "btn btn-primary" %>
+          <% end %>
         </p>
+        <div>
+          <%= link_to "刪除", cart_item_path(item), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
+        </div>
       </li>
     </ul>
   <% end %>
