@@ -8,6 +8,12 @@ RailsAdmin.config do |config|
   # end
   # config.current_user_method(&:current_user)
 
+  config.authorize_with do
+    unless current_user && current_user.is_admin?
+      raise ActionController::RoutingError.new('Not Found')
+    end
+  end
+
   ## == CancanCan ==
   # config.authorize_with :cancancan
 
