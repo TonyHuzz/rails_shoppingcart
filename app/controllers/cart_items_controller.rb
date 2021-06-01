@@ -1,6 +1,6 @@
 class CartItemsController < ApplicationController
   before_action :redirect_to_root_if_not_log_in
-  before_action :get_cart, except: [:index]
+  before_action :get_cart, except: [:index, :update, :destroy]
   before_action :get_cart_item, only: [:update, :destroy]
 
 
@@ -36,13 +36,26 @@ class CartItemsController < ApplicationController
   end
 
   def update
-    # @cart_item
+
+    if @cart_item.update(cart_item_permit)
+      flash[:notice] = "更新成功"
+    else
+      flash[:notice] = "更新失敗"
+    end
+
+    redirect_to action: :index
   end
 
   def destroy
-    @cart_item.destory
+    @cart_item.destroy
 
-    redirect_to :index
+    if @cart_item.destroyed?
+      flash[:notice] = "刪除成功"
+    else
+      flash[:notice] = "刪除失敗"
+    end
+
+    redirect_to action: :index
   end
 
   private
@@ -60,19 +73,23 @@ class CartItemsController < ApplicationController
 
     if !@cart
       flash[:notice] = "沒有找到目標購物車"
-      redirect_to :index
+      redirect_to action: :index
       return
     end
   end
 
   def get_cart_item
-      @cart_item = @cart.cart_items.find_by_id(params[:id])
+      @cart_item = CartItem.find_by_id(params[:id])
 
-    if !@cart_item
+    if !@cart_item || @cart_item.user != current_user
       flash[:notice] = "沒有找到目標購物車商品"
-      redirect_to :index
+      redirect_to action: :index
       return
     end
+  end
+
+  def cart_item_permit
+    params.require(:cart_item).permit([:quantity])
   end
 
 end
