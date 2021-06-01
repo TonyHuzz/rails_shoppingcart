@@ -5,6 +5,7 @@
     <li>
       <%= "訂單號碼: #{order.id}, 訂單狀態: #{order.status}, 總價: #{order.amount}" %>
       <%= link_to "查看", order_path(order) %>
+      <%= link_to "前往付款", payments_path(order_id: order.id) %>
     </li>
     <% end %>
   </ul>
