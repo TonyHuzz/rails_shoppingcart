@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2021_05_31_042207) do
 
-  create_table "cart_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "cart_items", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "cart_id"
     t.integer "quantity"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_042207) do
     t.index ["product_id"], name: "index_cart_items_on_product_id"
   end
 
-  create_table "carts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
     t.integer "cart_type"
     t.datetime "created_at", null: false
@@ -30,7 +33,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_042207) do
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
-  create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "image_url"
@@ -38,7 +41,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_042207) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "order_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "order_items", force: :cascade do |t|
     t.bigint "order_id"
     t.bigint "product_id"
     t.integer "quantity"
@@ -49,7 +52,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_042207) do
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
-  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
     t.bigint "user_id"
     t.string "user_name"
     t.string "user_address"
@@ -60,7 +63,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_042207) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
-  create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "image_url"
@@ -71,17 +74,17 @@ ActiveRecord::Schema.define(version: 2021_05_31_042207) do
     t.index ["subcategory_id"], name: "index_products_on_subcategory_id"
   end
 
-  create_table "subcategories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "subcategories", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "image_url"
-    t.integer "category_id"
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
